@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    "maven-publish"
+    `maven-publish`
 }
 
 android {
@@ -24,6 +24,12 @@ android {
             )
         }
     }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -32,10 +38,35 @@ android {
         jvmTarget = "1.8"
     }
 }
+afterEvaluate {
+    publishing {
+        publications {
+            register<MavenPublication>("release") {
+                groupId = "com.supsis"
+                artifactId = "supsisAndroidWidget"
+                version = "1.0.0"
+                from(components["release"])
+            }
+        }
+        repositories {
+            maven {
+                name = "Supsis Android Widget"
+                url = uri("https://maven.pkg.github.com/softcand/supsis-android-widget") // Kendi depo URL'nizle değiştirin
 
-
+                credentials {
+                    username = "GITHUB_USERNAME"
+                    password =  "GITHUB_PASS"
+                }
+            }
+        }
+    }
+}
 dependencies {
-
+    // AndroidX WebKit library
+    implementation("androidx.webkit:webkit:1.6.0")
+    // Gson library
+    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
