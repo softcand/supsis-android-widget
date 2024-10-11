@@ -84,18 +84,6 @@ afterEvaluate {
             maven {
                 name = "Supsis Android Widget"
                 url = uri("https://maven.pkg.github.com/softcand/supsis-android-widget")
-
-                credentials {
-                    val localProperties = Properties()
-                    val localPropertiesFile = rootProject.file("local.properties")
-                    if (localPropertiesFile.exists()) {
-                        localProperties.load(localPropertiesFile.inputStream())
-                    } else {
-                        throw GradleException("local.properties file not found.")
-                    }
-                    username = localProperties.getProperty("GITHUB_USERNAME")
-                    password = localProperties.getProperty("GITHUB_PASS")
-                }
             }
         }
     }
