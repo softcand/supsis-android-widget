@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -39,23 +41,53 @@ android {
     }
 }
 afterEvaluate {
+    val localProperties = Properties()
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localProperties.load(localPropertiesFile.inputStream())
+    } else {
+        throw GradleException("local.properties file not found.")
+    }
     publishing {
         publications {
             register<MavenPublication>("release") {
-                groupId = "com.supsis"
-                artifactId = "supsisAndroidWidget"
+                groupId = "com.github.softcand"
+                artifactId = "supsis-android-widget"
                 version = "1.0.0"
                 from(components["release"])
+                pom {
+                    name.set("Supsis Android Widget")
+                    description.set("An Android Widget for Supsis")
+                    url.set("https://github.com/softcand/supsis-android-widget")
+                    licenses {
+                        license {
+                            name.set("The Apache License, Version 2.0")
+                            url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+                        }
+                    }
+                    developers {
+                        developer {
+                            id.set("softcand")
+                            name.set("Abdu Samed Akgul")
+                            email.set("samedakgul99@gmail.com")
+                        }
+                    }
+                    scm {
+                        connection.set("scm:git:git://github.com/softcand/supsis-android-widget.git")
+                        developerConnection.set("scm:git:ssh://github.com/softcand/supsis-android-widget.git")
+                        url.set("https://github.com/softcand/supsis-android-widget")
+                    }
+                }
             }
         }
         repositories {
             maven {
                 name = "Supsis Android Widget"
-                url = uri("https://maven.pkg.github.com/softcand/supsis-android-widget") // Kendi depo URL'nizle değiştirin
+                url = uri("https://maven.pkg.github.com/softcand/supsis-android-widget")
 
                 credentials {
-                    username = System.getenv("GITHUB_USERNAME")
-                    password =  System.getenv("GITHUB_PASS")
+                    username = localProperties.getProperty("GITHUB_USERNAME")
+                    password = localProperties.getProperty("GITHUB_PASS")
                 }
             }
         }
