@@ -54,8 +54,8 @@ afterEvaluate {
                 url = uri("https://maven.pkg.github.com/softcand/supsis-android-widget") // Kendi depo URL'nizle değiştirin
 
                 credentials {
-                    username = "GITHUB_USERNAME"
-                    password =  "GITHUB_PASS"
+                    username = System.getenv("GITHUB_USERNAME")
+                    password =  System.getenv("GITHUB_PASS")
                 }
             }
         }
