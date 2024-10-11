@@ -96,8 +96,8 @@ class MainActivity : AppCompatActivity() {
 | ```initialize(domainName: String)``` | Bileşeni domain adınızla başlatır.   | ```supsisChatView?.initialize("sizin_domain_adiniz")```   |
 | ```setUserData(userData: Map<String, String>)``` | Sohbet oturumu için kullanıcı bilgilerini ayarlar.   | ```supsisChatView?.setUserData(mapOf("email" to "kullanici@ornek.com", "name" to "Ahmet Yılmaz"))```   |
 | ```setDepartment(department: String)``` | Sohbet oturumu için departmanı ayarlar.   | ```supsisChatView?.setDepartment("Destek")```   |
-| ```open()	``` | Sohbet bileşenini açar ve kullanıcıya gösterir.   | ```supsisChatView?.open()```   |
-| ```close()	``` | Sohbet bileşenini kapatır ve kullanıcıdan gizler.   | ```supsisChatView?.close()```   |
+| ```open()``` | Sohbet bileşenini açar ve kullanıcıya gösterir.   | ```supsisChatView?.open()```   |
+| ```close()``` | Sohbet bileşenini kapatır ve kullanıcıdan gizler.   | ```supsisChatView?.close()```   |
 
 ## Örnek Uygulama
 
