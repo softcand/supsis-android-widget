@@ -38,16 +38,16 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+        freeCompilerArgs += "-Xuse-ir"
+    }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1"
     }
 }
 afterEvaluate {
-    val localProperties = Properties()
-    val localPropertiesFile = rootProject.file("local.properties")
-    if (localPropertiesFile.exists()) {
-        localProperties.load(localPropertiesFile.inputStream())
-    } else {
-        throw GradleException("local.properties file not found.")
-    }
     publishing {
         publications {
             register<MavenPublication>("release") {
@@ -86,6 +86,13 @@ afterEvaluate {
                 url = uri("https://maven.pkg.github.com/softcand/supsis-android-widget")
 
                 credentials {
+                    val localProperties = Properties()
+                    val localPropertiesFile = rootProject.file("local.properties")
+                    if (localPropertiesFile.exists()) {
+                        localProperties.load(localPropertiesFile.inputStream())
+                    } else {
+                        throw GradleException("local.properties file not found.")
+                    }
                     username = localProperties.getProperty("GITHUB_USERNAME")
                     password = localProperties.getProperty("GITHUB_PASS")
                 }
@@ -98,11 +105,17 @@ dependencies {
     implementation("androidx.webkit:webkit:1.6.0")
     // Gson library
     implementation("com.google.code.gson:gson:2.10.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    // Jetpack Compose dependencies
+    implementation("androidx.compose.ui:ui:1.5.1")
+    implementation("androidx.compose.material:material:1.5.1")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.5.1")
+    implementation("androidx.compose.runtime:runtime:1.5.1")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.5.1")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.5.1")
 }
